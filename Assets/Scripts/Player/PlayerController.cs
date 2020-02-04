@@ -49,7 +49,6 @@ public class PlayerController : MonoBehaviour
     [Header("Wall Jump settings")]
     public float wallHopForce;
     public float wallJumpForce;
-    public bool canWallJump;
     public Vector2 wallHopDirection;
     public Vector2 wallJumpDirection;
 
@@ -133,11 +132,11 @@ public class PlayerController : MonoBehaviour
 
     private void ApplyMovement()
     {
-        if (isGrounded && !canWallJump)
+        if (isGrounded)
         {
             rb.velocity = new Vector2(movementInputDirection * currentMovementSpeed, rb.velocity.y);
         }
-        else if (!isGrounded && !isWallSliding && movementInputDirection != 0 && !canWallJump)
+        else if (!isGrounded && !isWallSliding && movementInputDirection != 0)
         {
             Vector2 forceToAdd = new Vector2(movementForceInAir * movementInputDirection, 0);
             rb.AddForce(forceToAdd);
@@ -150,10 +149,6 @@ public class PlayerController : MonoBehaviour
         else if (!isGrounded && !isWallSliding && movementInputDirection == 0)
         {
             rb.velocity = new Vector2(rb.velocity.x * airDragMultiplier, rb.velocity.y);
-        }
-        else if (canWallJump)
-        {
-            rb.velocity = new Vector2(movementInputDirection * currentMovementSpeed, rb.velocity.y);
         }
 
         if (isWallSliding)
